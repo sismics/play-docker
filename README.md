@@ -9,6 +9,9 @@ This plugin adds [Docker](https://www.docker.com/) support to Play! Framework 1 
 ```
 require:
     - docker -> docker 0.1.0
+    # Needed by Docker
+    - org.apache.httpcomponents -> httpclient 4.5
+    - org.apache.httpcomponents -> httpcore 4.4.5
 
 repositories:
     - sismics:
