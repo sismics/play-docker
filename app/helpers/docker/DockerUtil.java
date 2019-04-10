@@ -5,7 +5,6 @@ import com.spotify.docker.client.DockerCertificates;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.auth.FixedRegistryAuthSupplier;
 import com.spotify.docker.client.messages.RegistryAuth;
-import com.spotify.docker.client.messages.RegistryConfigs;
 import play.Play;
 
 import java.net.URI;
@@ -38,17 +37,21 @@ public class DockerUtil {
                     builder.header("Authorization", "Basic " + getDockerAuthorization());
                 }
             }
-            if (getRegistryAddress() != null) {
-                builder.registryAuthSupplier(new FixedRegistryAuthSupplier(RegistryAuth.builder()
-                        .username(getRegistryUserName())
-                        .password(getRegistryPassword())
-                        .serverAddress(getRegistryAddress())
-                        .build(), RegistryConfigs.empty()));
+            if (getRegistryUsername() != null && getRegistryPassword() != null && getRegistryAddress() != null) {
+                builder.registryAuthSupplier(new FixedRegistryAuthSupplier(getRegistryAuth(), null));
             }
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException("Error building Docker Client", e);
         }
+    }
+
+    public static RegistryAuth getRegistryAuth() {
+        return RegistryAuth.builder()
+                .username(getRegistryUsername())
+                .password(getRegistryPassword())
+                .serverAddress(getRegistryAddress())
+                .build();
     }
 
     private static String getDockerCertDir() {
@@ -67,7 +70,7 @@ public class DockerUtil {
         return Play.configuration.getProperty("docker.authorization");
     }
 
-    private static String getRegistryUserName() {
+    private static String getRegistryUsername() {
         return Play.configuration.getProperty("docker.registry.username");
     }
 

@@ -1,0 +1,44 @@
+<html>
+<style>
+    .ok {color: green;}
+    .ko {color: red;}
+</style>
+<body>
+<h1>Docker console</h1>
+
+<h2>Configuration</h2>
+
+<pre>docker.mock=${dockerPlugin.mock}
+docker.remote_host=${dockerPlugin.remoteHost}
+docker.remote_port=${dockerPlugin.remotePort}
+docker.authorization=${dockerPlugin.authorization} (${org.apache.commons.codec.binary.StringUtils.newStringUtf8(play.libs.Codec.decodeBASE64(dockerPlugin.authorization))})
+docker.registry.username=${dockerPlugin.registryUsername}
+docker.registry.password=${dockerPlugin.registryPassword}
+docker.registry.address=${dockerPlugin.registryAddress}
+</pre>
+
+<h2>Connection</h2>
+#{set info: dockerPlugin.dockerConnection /}
+<b>Docker host: <span class="${info != null ? 'ok': 'ko'}">${info != null ? 'OK': 'KO'}</span></b>
+#{if info != null}
+<ul>
+<li>Name: ${info.name}</li>
+<li>Server version: ${info.serverVersion}</li>
+<li>Storage driver: ${info.storageDriver}</li>
+<li>CPUs: ${info.cpus}</li>
+<li>Operating System: ${info.operatingSystem}</li>
+</ul>
+    #{set registryConnection: dockerPlugin.registryConnection /}
+#{/if}
+
+<b>Registry: <span class="${registryConnection == 200 ? 'ok' : 'ko'}">${registryConnection != null ? registryConnection : 'not tried'}</span></b>
+
+<form action="@{Dockers.index()}" method="GET">
+    <input type="text" name="distribution" />
+    <input type="submit" value="Get image info" />
+</form>
+
+<p>${distribution}</p>
+
+</body>
+</html>

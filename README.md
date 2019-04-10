@@ -8,15 +8,16 @@ This plugin adds [Docker](https://www.docker.com/) support to Play! Framework 1 
 
 ```
 require:
-    - docker -> docker 0.1.0
+    - docker -> docker 1.0.0
+    
     # Needed by Docker
-    - org.apache.httpcomponents -> httpclient 4.5
+    - org.apache.httpcomponents -> httpclient 4.5.3
     - org.apache.httpcomponents -> httpcore 4.4.5
 
 repositories:
-    - sismics:
-        type:       http
-        artifact:   "http://release.sismics.com/repo/play/[module]-[revision].zip"
+    - sismicsNexusRaw:
+        type: http
+        artifact: "https://nexus.sismics.com/repository/sismics/[module]-[revision].zip"
         contains:
             - docker -> *
 
@@ -47,6 +48,27 @@ If you need to authenticate to the Docker Registry, add the following configurat
 docker.registry.username=username
 docker.registry.password=password
 docker.registry.address=registry_address
+```
+
+# Enable the admin console
+
+The admin console allows you to monitor queries in realtime.
+
+Add the following parameter to enable the admin console:
+
+```
+docker.console.enabled=true
+```
+
+Note: the admin console is enabled by default in Dev mode.
+
+### Secure the admin console
+
+Add the following parameter to secure the admin console
+
+```
+docker.console.username=console
+docker.console.password=pass1234
 ```
 
 # License
