@@ -5,6 +5,7 @@ import com.spotify.docker.client.DockerCertificates;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.auth.FixedRegistryAuthSupplier;
 import com.spotify.docker.client.messages.RegistryAuth;
+import com.spotify.docker.client.messages.RegistryConfigs;
 import play.Play;
 
 import java.net.URI;
