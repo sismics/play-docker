@@ -1,4 +1,4 @@
-self: play -> docker 1.0.0
+self: play -> docker 1.1.0
 
 configurations:
     - provided:
@@ -9,3 +9,11 @@ require:
     - com.spotify -> docker-client 8.15.2
     - com.fasterxml.jackson.core -> jackson-databind 2.8.10
     - org.bouncycastle -> bcprov-jdk15on 1.58
+    - playful -> playful 1.6.1
+
+repositories:
+    - sismicsNexusRaw:
+          type: http
+          artifact: "https://nexus.sismics.com/repository/sismics/[module]-[revision].zip"
+          contains:
+              - playful -> *
