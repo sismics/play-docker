@@ -1,3 +1,6 @@
+[![GitHub release](https://img.shields.io/github/release/sismics/play-docker.svg?style=flat-square)](https://github.com/sismics/play-docker/releases/latest)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # play-docker plugin
 
 This plugin adds [Docker](https://www.docker.com/) support to Play! Framework 1 applications.
@@ -8,7 +11,7 @@ This plugin adds [Docker](https://www.docker.com/) support to Play! Framework 1 
 
 ```
 require:
-    - docker -> docker 1.1.0
+    - docker -> docker 1.2.0
     
     # Needed by Docker
     - org.apache.httpcomponents -> httpclient 4.5.3
