@@ -13,7 +13,9 @@ jobs:
     steps:
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+        run: |
+          value=`grep -oP 'docker \K[\d\.]*' conf/dependencies.yml`
+          echo "{VERSION}={value}" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Python
