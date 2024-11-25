@@ -16,7 +16,7 @@ jobs:
           value=`grep -oP 'docker \K[\d\.]*' conf/dependencies.yml`
           echo "{VERSION}={value}" >> $GITHUB_OUTPUT
       - name: Setup Python
-      - uses: LizardByte/setup-python-action@master
+        uses: LizardByte/setup-python-action@master
         with:
           python-version: '2.7'
       - name: Build
