@@ -15,7 +15,7 @@ jobs:
         id: get_version
         run: |
           value=`grep -oP 'docker \K[\d\.]*' conf/dependencies.yml`
-          echo "VERSION=$value" >> $GITHUB_OUTPUT
+          echo "VERSION=$value" >> $GITHUB_ENV
       - name: Setup Python
         uses: LizardByte/setup-python-action@master
         with:
@@ -24,6 +24,7 @@ jobs:
         env:
           PLAY_VERSION: 1.5.3
         run: |
+          echo VERSION=$VERSION
           wget -nv http://downloads.typesafe.com/play/${PLAY_VERSION}/play-${PLAY_VERSION}.zip
           unzip -q play-${PLAY_VERSION}.zip
           play-${PLAY_VERSION}/play deps --sync
