@@ -13,10 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get the version
-        run: |
-          value=`grep -oP 'docker \K[\d\.]*' conf/dependencies.yml`
-          echo "{VERSION}={value}" >> $GITHUB_OUTPUT
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
