@@ -5,7 +5,6 @@ import com.spotify.docker.client.DockerCertificates;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.auth.FixedRegistryAuthSupplier;
 import com.spotify.docker.client.messages.RegistryAuth;
-import com.spotify.docker.client.messages.RegistryConfigs;
 import play.Play;
 
 import java.net.URI;
@@ -26,20 +25,24 @@ public class DockerUtil {
     public static DockerClient createDockerClient() {
         try {
             DefaultDockerClient.Builder builder = DefaultDockerClient.builder();
-            if (getDockerCertDir() != null) {
-                builder
-                        .uri(URI.create("https://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2376")))
-                        .dockerCertificates(DockerCertificates.builder()
-                                .dockerCertPath(Paths.get(getDockerCertDir()))
-                                .build().orNull());
+            if (isUseSocket()) {
+                builder.uri(URI.create("unix:///var/run/docker.sock"));
             } else {
-                builder.uri(URI.create("http://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2400")));
-                if (getDockerAuthorization() != null) {
-                    builder.header("Authorization", "Basic " + getDockerAuthorization());
+                if (getDockerCertDir() != null) {
+                    builder
+                            .uri(URI.create("https://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2376")))
+                            .dockerCertificates(DockerCertificates.builder()
+                                    .dockerCertPath(Paths.get(getDockerCertDir()))
+                                    .build().orNull());
+                } else {
+                    builder.uri(URI.create("http://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2400")));
+                    if (getDockerAuthorization() != null) {
+                        builder.header("Authorization", "Basic " + getDockerAuthorization());
+                    }
                 }
-            }
-            if (getRegistryUsername() != null && getRegistryPassword() != null && getRegistryAddress() != null) {
-                builder.registryAuthSupplier(new FixedRegistryAuthSupplier(getRegistryAuth(), null));
+                if (getRegistryUsername() != null && getRegistryPassword() != null && getRegistryAddress() != null) {
+                    builder.registryAuthSupplier(new FixedRegistryAuthSupplier(getRegistryAuth(), null));
+                }
             }
             return builder.build();
         } catch (Exception e) {
@@ -65,6 +68,10 @@ public class DockerUtil {
 
     private static String getDockerRemotePort(String defaultPort) {
         return Play.configuration.getProperty("docker.remote_port", defaultPort);
+    }
+
+    private static boolean isUseSocket() {
+        return Boolean.getBoolean(Play.configuration.getProperty("docker.use_socket"));
     }
 
     private static String getDockerAuthorization() {

@@ -1,4 +1,6 @@
 ## Change Log
+### Version 1.3.0 (2024-11-25)
+- Add ability to connect through socket
 ### Version 1.2.0 (2020-12-28)
 - Deploy using Github Action
 ### Version 1.1.0 (2019-05-03)

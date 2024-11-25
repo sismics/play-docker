@@ -31,6 +31,19 @@ repositories:
 
 ```
 docker.remote_host=yourdockerhost.com
+docker.remote_port=2400
+```
+
+#### Connect with socket
+
+```
+docker.use_socket=true
+```
+
+####  Connect with certificate
+
+```
+docker.remote_host=yourdockerhost.com
 docker.remote_port=2376
 docker.cert_dir=/your/cert/dir
 ```
