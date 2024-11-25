@@ -11,13 +11,12 @@ jobs:
     container:
       image: python:2.7.18-buster
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Get the version
-        id: get_version
         run: |
           value=`grep -oP 'docker \K[\d\.]*' conf/dependencies.yml`
           echo "{VERSION}={value}" >> $GITHUB_OUTPUT
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
