@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    container:
+      image: python:2.7.18-buster
     steps:
       - name: Get the version
         id: get_version
@@ -17,7 +19,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 'python:2.7.18-buster'
+          python-version: '2.x'
       - name: Build
         env:
           PLAY_VERSION: 1.5.3
