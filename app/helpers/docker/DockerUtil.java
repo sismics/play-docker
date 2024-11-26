@@ -5,6 +5,7 @@ import com.spotify.docker.client.DockerCertificates;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.auth.FixedRegistryAuthSupplier;
 import com.spotify.docker.client.messages.RegistryAuth;
+import play.Logger;
 import play.Play;
 
 import java.net.URI;
@@ -26,17 +27,22 @@ public class DockerUtil {
         try {
             DefaultDockerClient.Builder builder = DefaultDockerClient.builder();
             if (isUseSocket()) {
-                builder.uri(URI.create("unix:///var/run/docker.sock"));
+                String socketUri = "unix:///var/run/docker.sock";
+                Logger.info("Using docker socket: " + socketUri);
+                builder.uri(URI.create(socketUri));
             } else {
                 if (getDockerCertDir() != null) {
+                    Logger.info("Using docker certificate directory: " + getDockerCertDir());
                     builder
                             .uri(URI.create("https://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2376")))
                             .dockerCertificates(DockerCertificates.builder()
                                     .dockerCertPath(Paths.get(getDockerCertDir()))
                                     .build().orNull());
                 } else {
+                    Logger.info("Using docker without certificates");
                     builder.uri(URI.create("http://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2400")));
                     if (getDockerAuthorization() != null) {
+                        Logger.info("Using docker with basic authorization");
                         builder.header("Authorization", "Basic " + getDockerAuthorization());
                     }
                 }
