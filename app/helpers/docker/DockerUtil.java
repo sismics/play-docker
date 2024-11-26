@@ -77,7 +77,7 @@ public class DockerUtil {
     }
 
     private static boolean isUseSocket() {
-        return Boolean.getBoolean(Play.configuration.getProperty("docker.use_socket"));
+        return Boolean.parseBoolean(Play.configuration.getProperty("docker.use_socket"));
     }
 
     private static String getDockerAuthorization() {
