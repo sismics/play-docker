@@ -46,9 +46,9 @@ public class DockerUtil {
                         builder.header("Authorization", "Basic " + getDockerAuthorization());
                     }
                 }
-                if (getRegistryUsername() != null && getRegistryPassword() != null && getRegistryAddress() != null) {
-                    builder.registryAuthSupplier(new FixedRegistryAuthSupplier(getRegistryAuth(), null));
-                }
+            }
+            if (getRegistryUsername() != null && getRegistryPassword() != null && getRegistryAddress() != null) {
+                builder.registryAuthSupplier(new FixedRegistryAuthSupplier(getRegistryAuth(), null));
             }
             return builder.build();
         } catch (Exception e) {
