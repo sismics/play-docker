@@ -10,6 +10,7 @@ require:
     - com.fasterxml.jackson.core -> jackson-databind 2.8.10
     - org.bouncycastle -> bcprov-jdk15on 1.58
     - playful -> playful 1.6.1
+    - com.github.jnr -> jffi 1.2.15
 
 repositories:
     - sismicsNexusRaw:
