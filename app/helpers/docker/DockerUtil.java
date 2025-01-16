@@ -28,21 +28,21 @@ public class DockerUtil {
             DefaultDockerClient.Builder builder = DefaultDockerClient.builder();
             if (isUseSocket()) {
                 String socketUri = "unix:///var/run/docker.sock";
-                Logger.info("Using docker socket: " + socketUri);
+                Logger.debug("Using docker socket: " + socketUri);
                 builder.uri(URI.create(socketUri));
             } else {
                 if (getDockerCertDir() != null) {
-                    Logger.info("Using docker certificate directory: " + getDockerCertDir());
+                    Logger.debug("Using docker certificate directory: " + getDockerCertDir());
                     builder
                             .uri(URI.create("https://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2376")))
                             .dockerCertificates(DockerCertificates.builder()
                                     .dockerCertPath(Paths.get(getDockerCertDir()))
                                     .build().orNull());
                 } else {
-                    Logger.info("Using docker without certificates");
+                    Logger.debug("Using docker without certificates");
                     builder.uri(URI.create("http://" + getDockerRemoteHost() + ":" + getDockerRemotePort("2400")));
                     if (getDockerAuthorization() != null) {
-                        Logger.info("Using docker with basic authorization");
+                        Logger.debug("Using docker with basic authorization");
                         builder.header("Authorization", "Basic " + getDockerAuthorization());
                     }
                 }
