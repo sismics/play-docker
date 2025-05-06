@@ -27,6 +27,7 @@ jobs:
           wget -nv http://downloads.typesafe.com/play/${PLAY_VERSION}/play-${PLAY_VERSION}.zip
           unzip -q play-${PLAY_VERSION}.zip
           play-${PLAY_VERSION}/play deps --sync
+          wget https://repo1.maven.org/maven2/com/github/jnr/jffi/1.2.15/jffi-1.2.15.jar -P lib 
           zip -r package.zip app conf lib src *.md LICENSE play.plugins
       - name: Deploy
         env:
